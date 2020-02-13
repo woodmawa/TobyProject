@@ -1,0 +1,4 @@
+//format, @ is file seperator as its not often used in code, noun first, Capitalised noun second, last the text that will become the closure
+
+drink @ Tea     @ {println "lets have a nice cup of char"}
+get   @ Knife   @ {println "with knife we can cut bread"}
