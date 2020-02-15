@@ -7,14 +7,18 @@ class Condition implements Predicate {
     def lowerLimit  = 0
     def upperLimit = 0
     def measure = 0
+    String name = "unnamed"
 
     //default condition evaluation
-    Closure closureTest = {obj -> return false}  
+    Closure closureTest = {obj -> return false}
 
     @Override
     boolean test(Object obj = null) {
         if (closureTest) {
-            closureTest.delegate = obj
+            if (obj)
+                closureTest.delegate = obj
+            else
+                closureTest.delegate = this //else set delegte to be this condition instance
 
             return closureTest(obj)
         }
