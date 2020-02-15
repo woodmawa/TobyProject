@@ -19,5 +19,7 @@ def val = 50
 
 println "c1 is : " + c1.test(val) + " and c2 is : " + c2.test()
 
-println c1.or (c2)
+println "c1 call () : " + c1()
+
+println c1.or (c2, val)
 
