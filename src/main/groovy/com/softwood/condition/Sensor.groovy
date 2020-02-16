@@ -5,15 +5,14 @@ import java.util.function.Predicate
 
 
 //might be a subclass of Condition later ...
-class Sensor implements Predicate {
+class Sensor {
 
     String name
     def observes //sensor will look at something
+    Closure<List> sense = {[]}  //do nothing
+    def lowWatermark
+    def highWatermark
 
-    //it will return true or valse
+    //it will return true or false
 
-    @Override
-    boolean test(Object o) {
-        return false
-    }
 }

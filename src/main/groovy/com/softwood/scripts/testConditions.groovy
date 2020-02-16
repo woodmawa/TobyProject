@@ -1,9 +1,7 @@
 package com.softwood.scripts
 
-import com.softwood.GameObject
+import com.softwood.context.GameObject
 import com.softwood.condition.Condition
-
-import java.util.concurrent.atomic.AtomicBoolean
 
 GameObject myGame = new GameObject()
 

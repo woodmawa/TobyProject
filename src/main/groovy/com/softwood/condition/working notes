@@ -15,3 +15,50 @@ Action has any number of  effects - which is the expected future sensor/value yo
 if an action is run - stuff happens, and that stuff should change things, so sensor/value readings would be chnaged -
 this sets the expectation on that outcome
 
+dynamic preconditions  - is a block of code that will return true or false - but sometimes sets variables
+
+dynamic precon can set a target ? such that when the action is
+
+example of one chair -
+
+if two individuals want a chair - and only chair  -
+during set preconditons, the first person gets a chair and reserves it - so second person can no longer have it and must
+do something else...
+
+can have multiple game objects - each person has its own game object,
+
+each person has 1 goal at any time - [string: bool]
+
+each person has a list of attributes
+each person has a list of sensors ( set pref initialiser) where each sensor watches one and ony one attribute - sensor returns [string:bool]
+
+when its your go, a planner objects assess the player
+gets the players goal, and gets the sensor list [string:bool]  - eg attribute is energy, but sensor is called 'isTired'
+planner checks to see if goal is exactly matched  - keep doing what your doing
+if no, then build a tree of Actions to evaluate to achieve the required goal - in least/number or lowest weight of actions
+
+which action can have what sub actions rules during making of the tree is determined by the preconditions and effects for each action
+
+prefab initialiser creats the set of actions that any person can do.
+
+person world state is cuurent collection of sensor results
+
+sensors ;
+e.g isTired : aiEnergy < aiEnergyThreshold
+isHungry: aiHunge r< aiHungerThreshold
+hasWand:
+isSittingDown
+
+preconditions : just outcome not the calc
+effects is what you expect after an action is performed
+istired, true
+
+ dynamicPrecon - check if possible in existing world - actual world complete .  actual world is collection of games objects in 'scene' or 3d space
+ kind of like main .
+
+ unity always has a scene open ( some initialising to original starting state)
+
+ can new people (using prefab) and this person will be autoadded to the scene (bunch of object instances) person and obejcts have to be the scene for
+ them do do processing - else invalid
+
+
