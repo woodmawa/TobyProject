@@ -1,0 +1,17 @@
+world state is collection of strings and bools
+where the bools are given by the sensors - world state is
+name of [the sensor name, and bool value of the sensor]
+
+
+preconditions - this sets the expected /required state of a sensor /and its value which if true
+permits the action to be called
+
+
+sensor watches something and returns true or false
+
+each Action , has a list of preconditions that must be met for the action to be executable
+
+Action has any number of  effects - which is the expected future sensor/value you expect to true after executing the action
+if an action is run - stuff happens, and that stuff should change things, so sensor/value readings would be chnaged -
+this sets the expectation on that outcome
+

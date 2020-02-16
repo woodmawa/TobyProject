@@ -1,8 +1,13 @@
 package com.softwood.scripts
 
+import com.softwood.GameObject
 import com.softwood.condition.Condition
 
 import java.util.concurrent.atomic.AtomicBoolean
+
+GameObject myGame = new GameObject()
+
+println "game is called : "+ myGame.name + " with position " + myGame.position
 
 
 def c1 = new Condition (name:"fred")
@@ -23,6 +28,7 @@ def val = 50
 println "c1 is : " + c1.test(val) + " and c2 is : " + c2.test()
 
 println "c1 call () : " + c1.call()
+println "c1 resolved to : " + c1.result.get()
 
 println c1.or (c2, val)
 
