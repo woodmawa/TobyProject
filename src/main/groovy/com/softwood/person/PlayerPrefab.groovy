@@ -23,7 +23,8 @@ class PlayerPrefab<T> {
 
 
         //set player's initial goal
-        player.goal = new GameState (name:"hasSword", value:true)
+        player.currentGoal = new GameState (name:"hasSword", value:true)
+        player.goals << player.currentGoal << new GameState (name:"killEnemy", value:true)
 
         //set player attributes into player.attributes map
         Attribute energy = new Attribute (name:"Energy", value:100)
@@ -34,12 +35,13 @@ class PlayerPrefab<T> {
         //add one sensor to check if player is tired
         //set delegate for closure to be the player who has this sensor
         Sensor sensor = new Sensor(observes:energy, name:"isTired", lowWatermark: 35)
+        //attributes will be resolved to the player instance delegate
         sensor.sense = { param ->
             [attributes.get("Energy")?.name, attributes.get("Energy")?.value < sensor.lowWatermark]
             }
         sensor.sense.delegate = player
-        sensor.sense.resolveStrategy = Closure.DELEGATE_FIRST
 
+        //add sensor to players list of sensors
         player.sensors << sensor
 
         return player

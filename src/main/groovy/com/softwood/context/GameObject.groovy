@@ -7,10 +7,10 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * relative to each player
  */
 class GameObject {
-    String name = "This Game Object"
+    String name = "This Players Game Object"
 
     //holds initial queue of game states established by the prefab
-    Collection states = new ConcurrentLinkedQueue<GameState>()
+    Collection states = [] // todo change to new ConcurrentLinkedQueue<GameState>()
 
     //geo position for this instance
     List position = [0,0,0]

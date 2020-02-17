@@ -12,13 +12,15 @@ class Player {
 
     String name
     GameObject worldState
-    GameState goal
-    Collection<Sensor> sensors = [] //add concurrentLinkedQueue later
+    GameState currentGoal
+    //todo probably best done as a Set of goals
+    Set<GameState>  goals = []
+    Collection<Sensor> sensors = [] //add concurrentLinkedDequeue later
     Collection<Action> actions = []
     Map attributes = new ConcurrentHashMap<String, Attribute>()
 
     //for now this is a dummy
-    def getObjectsInrange (radius) {
+    def getObjectsInRange (radius) {
         []
     }
 }

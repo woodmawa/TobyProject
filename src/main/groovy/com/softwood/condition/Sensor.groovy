@@ -15,4 +15,13 @@ class Sensor {
 
     //it will return true or false
 
+    void setSense (Closure cls) {
+
+        if (!cls)
+            throw NullPointerException
+        else {
+            sense = cls
+            sense.resolveStrategy = Closure.DELEGATE_FIRST
+        }
+    }
 }
