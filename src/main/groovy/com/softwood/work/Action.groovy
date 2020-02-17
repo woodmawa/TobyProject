@@ -1,7 +1,10 @@
 package com.softwood.work
 
 import com.softwood.condition.Condition
+import com.softwood.context.GameState
 import groovy.transform.ToString
+
+import java.util.concurrent.ConcurrentLinkedDeque
 
 @ToString
 class Action {
@@ -39,7 +42,9 @@ class Action {
 
     //not sure how to do effects - this is just a set of closures?
     //is this different than the action performed ?
-    Set effects = []
+    //the effects are a set of modifications to the players worldState,
+    //so would remove previous matched entry and adds new replacement state
+    Set<GameState> effects = []
 
     //accept a string, like aCamelString
     //return a list containing strings, in this case, [a, Camel, String]
@@ -49,6 +54,7 @@ class Action {
             result.add(w)
         }
         return result
+
     }
 
     def performAction (param) {
@@ -68,8 +74,24 @@ class Action {
         if (work) {
             //invoke the work action
             work()
-        } else
+        } else {
             //if null invoke the default
             unknownVerbAction()
+        }
+
+        applyEffects()
+    }
+    
+    private  applyEffects () {
+        //todo how do i determine who my player is ?
+        if (effects) {
+            effects.each {
+                /*
+                if worldState.contains( it.key)
+                remove entry from players worldstate
+                add entry entry it to world state
+                 */
+            }
+        }
     }
 }
