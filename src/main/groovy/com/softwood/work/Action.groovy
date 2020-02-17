@@ -1,5 +1,6 @@
 package com.softwood.work
 
+import com.softwood.condition.Condition
 import groovy.transform.ToString
 
 @ToString
@@ -32,6 +33,13 @@ class Action {
 
     Closure unknownVerbAction = {println "cant find a matching action for '$name'"}
     String name
+
+    //action can only be performed if all preConditions are true
+    Set<Condition> preConditions = []
+
+    //not sure how to do effects - this is just a set of closures?
+    //is this different than the action performed ?
+    Set effects = []
 
     //accept a string, like aCamelString
     //return a list containing strings, in this case, [a, Camel, String]
