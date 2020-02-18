@@ -17,9 +17,9 @@ class Action {
 
     //delegate (closure) hash lookup, takes a noun (first key) to get a hash, then tries to index using a verb to get the delegate
     static Map actionsMap = new HashMap () <<
-            [eat : [Grass: {println "eat grass baby"},
-                    Sandwich: {println "eating my sandwich, leave me in peace"}],
-             walk: [Park: {println "taking a stroll in the park"}]
+            [eat : [Grass: {println "action: eat grass baby"},
+                    Sandwich: {println "actin: eating my sandwich, leave me in peace"}],
+             walk: [Park: {println "action: taking a stroll in the park"}]
              //add others here, or add from helper class that declares the hashes and the delegates, and adds to this hash
              //you could add a constructor to load this on first use for example ...
              //just left it simple directly in the class at the mo to remove clutter
@@ -27,7 +27,6 @@ class Action {
 
     //static initialiser block to augment the actionsMap
     static {
-        println "running Action static initialiser"
         ActionMapBuilder.refLookup.each {verb, nounMap ->
             Map existingVerbNounMap
             if (existingVerbNounMap = actionsMap.(verb))  {
@@ -47,8 +46,8 @@ class Action {
     Player player   //not actions have to assigned to a player, if one is, then set parent player for this action instance
 
 
-    //action can only be performed if all preConditions are true
-    Set<Condition> preConditions = []
+    //action can only be performed if all preConditions are true, use Set to ensure uniqueness
+    Set<GameState> preConditions = []
 
     //not sure how to do effects - this is just a set of closures?
     //is this different than the action performed ?
@@ -67,7 +66,7 @@ class Action {
 
     }
 
-    def performAction (param) {
+    boolean performAction (param) {
         String noun, verb
         assert actionsMap
 
@@ -81,6 +80,11 @@ class Action {
         //need to 'eval' the verb, and noun to get the actual value as the key
         Closure work = actionsMap?.(verb)?.(noun)
 
+        if (!checkPreconditions()) {
+            println "action preconditions  $preConditions were not fully met in players worldstate $player.worldState"
+            return false
+        }
+
         if (work) {
             //invoke the work action
             work()
@@ -90,16 +94,30 @@ class Action {
         }
 
         applyEffects()
+
+        return true
     }
 
-    //apply effects GameStates to players worldState, and remove old versions
-    private  applyEffects () {
+    private boolean checkPreconditions () {
+        boolean result = false
+        if (preConditions) {
+            if (player.worldState.intersect(preConditions))
+                true
+            else {
+                false
+            }
+        }
+
+    }
+
+        //apply effects GameStates to players worldState, and remove old versions
+    private void applyEffects () {
 
         Collection<GameState> worldStateList = player?.worldState ?: []
 
         //todo this may be too brutal as it will remove all instances from world state, if multiple entries are possible, check with toby ?
         if (effects) {
-            println "applying $effects to player $player.name worldState $worldStateList"
+            println "applying effects $effects to player $player.name with worldState $worldStateList"
             effects.each {effect ->
                 worldStateList.removeAll{it.name == effect.name}    //if get match on name clobber old from worldState
                 worldStateList.add(effect)  //add revised ones back in

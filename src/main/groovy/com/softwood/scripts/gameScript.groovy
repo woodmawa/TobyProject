@@ -28,15 +28,33 @@ assert player.goals.size() == 2
 //need to figure out how to compare a Set<GameState> with simple typed entry, so use spread dot to Set then toString() and compare that
 assert  player.goals*.toString() == ["[hasSword:true]","[killEnemy:true]"] as ArrayList
 
+println ">> players initial world state before actions is $player.worldState"
+
+//create an action and attach this to the player - not all actions will require players at the mo
 Action action = new Action(name:"myFirstAction")
-action.effects << new GameState (name:"runForTheHills", value:true)
+action.preConditions << new GameState (name:"blueSky", value:true)
+action.effects << new GameState (name:"runForTheHills", value:true) <<  new GameState (name:"newbie", value:false)
 def p = player << action
 
-assert player.actions.size() == 1  //haven't added actions yet
-assert action.player == player
-player.actions[0].performAction("eatGrass")
-println player.worldState  //should contain "run for the hills"
+Action action2 = new Action(name:"mySecondAction")
+action2.preConditions << new GameState (name:"isAlive", value:true)
+action2.effects << new GameState (name:"runForTheHills", value:true) <<  new GameState (name:"newbie", value:false)
+p = player << action2
 
+assert player.actions.size() == 2  //haven't added actions yet
+assert action.player == player
+
+//ask player to perform the action - if preconditions are all ok - then check that effects have been updated on players worldState
+println "\n>> perform eatGrass action "
+player.actions[0].performAction("eatGrass")
+println player.worldState  //action should fail as preconditions were not met on action[0]
+
+println "\n>> perform walkPark action "
+player.actions[1].performAction("walkPark")
+println player.worldState  //should contain "run for the hills", and set newbie to false
+
+//this bit is just checking that setting Conditions expectedGameState and then running a test on either a GameState, or worldState list works as expected
+println "\n>> check dynamic condition.test works for param of GameState, or worldStateList<GameState> "
 GameState gs1 = new GameState("imHungry", true )
 Condition c1 = new Condition()
 Condition c2 =        c1.setExpectedGameState (new GameState(name:"imHungry", value:true ))

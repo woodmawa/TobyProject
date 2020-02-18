@@ -16,7 +16,7 @@ class PlayerPrefab<T> {
         Player player = new Player(name: name)
 
         //build initial worldState for a player
-        player.game = new GameObject(name:name)
+        player.currentGame = new GameObject(name:name)
         player.worldState <<  new GameState (name:"newbie", value: true)
         player.worldState << new GameState (name:"hasEnergy", value: true)
         player.worldState << new GameState (name:"isAlive", value: true)

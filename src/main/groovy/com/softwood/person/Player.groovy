@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap
 class Player {
 
     String name
-    GameObject game
+    GameObject currentGame
     Collection<GameState> worldState = []
     GameState currentGoal
     //todo probably best done as a Set of goals
