@@ -2,12 +2,19 @@ package com.softwood.work
 
 import com.softwood.condition.Condition
 import com.softwood.context.GameState
+import com.softwood.person.Player
 import groovy.transform.ToString
 
 import java.util.concurrent.ConcurrentLinkedDeque
 
+
 @ToString
 class Action {
+    enum Scope {
+        GLOBAL, PLAYER
+
+    }
+
     //delegate (closure) hash lookup, takes a noun (first key) to get a hash, then tries to index using a verb to get the delegate
     static Map actionsMap = new HashMap () <<
             [eat : [Grass: {println "eat grass baby"},
@@ -34,8 +41,11 @@ class Action {
         ActionMapBuilder.dynamicActionsLoader()  //load any dynamic actions
    }
 
+    String scope = Scope.PLAYER   //set default scope for the action, assumed to be Player
     Closure unknownVerbAction = {println "cant find a matching action for '$name'"}
     String name
+    Player player   //not actions have to assigned to a player, if one is, then set parent player for this action instance
+
 
     //action can only be performed if all preConditions are true
     Set<Condition> preConditions = []
@@ -61,7 +71,7 @@ class Action {
         String noun, verb
         assert actionsMap
 
-        def verbNounList = splitCamelCaseString(name)
+        def verbNounList = splitCamelCaseString(param)
 
         //lookup the work action by verb, then noun  - if we have a closure invoke that to do the work
         //have to careful that the key for the hash is String and not a Gstring
@@ -81,17 +91,20 @@ class Action {
 
         applyEffects()
     }
-    
+
+    //apply effects GameStates to players worldState, and remove old versions
     private  applyEffects () {
-        //todo how do i determine who my player is ?
+
+        Collection<GameState> worldStateList = player?.worldState ?: []
+
+        //todo this may be too brutal as it will remove all instances from world state, if multiple entries are possible, check with toby ?
         if (effects) {
-            effects.each {
-                /*
-                if worldState.contains( it.key)
-                remove entry from players worldstate
-                add entry entry it to world state
-                 */
-            }
+            println "applying $effects to player $player.name worldState $worldStateList"
+            effects.each {effect ->
+                worldStateList.removeAll{it.name == effect.name}    //if get match on name clobber old from worldState
+                worldStateList.add(effect)  //add revised ones back in
+              }
         }
+
     }
 }

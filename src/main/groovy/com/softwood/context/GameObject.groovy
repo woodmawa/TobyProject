@@ -1,5 +1,7 @@
 package com.softwood.context
 
+import groovy.transform.MapConstructor
+
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
@@ -9,11 +11,9 @@ import java.util.concurrent.ConcurrentLinkedQueue
 class GameObject {
     String name = "This Players Game Object"
 
-    //holds initial queue of game states established by the prefab
-    Collection states = [] // todo change to new ConcurrentLinkedQueue<GameState>()
-
     //geo position for this instance
     List position = [0,0,0]
+
 
 
 }

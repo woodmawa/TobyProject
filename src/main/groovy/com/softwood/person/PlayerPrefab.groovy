@@ -16,10 +16,11 @@ class PlayerPrefab<T> {
         Player player = new Player(name: name)
 
         //build initial worldState for a player
-        player.worldState = new GameObject(name:name)
-        player.worldState.states << new GameState (name:"hasEnergy", value: true)
-        player.worldState.states << new GameState (name:"isAlive", value: true)
-        player.worldState.states << new GameState (name:"hasSword", value: false)
+        player.game = new GameObject(name:name)
+        player.worldState <<  new GameState (name:"newbie", value: true)
+        player.worldState << new GameState (name:"hasEnergy", value: true)
+        player.worldState << new GameState (name:"isAlive", value: true)
+        player.worldState << new GameState (name:"hasSword", value: false)
 
 
         //set player's initial goal
