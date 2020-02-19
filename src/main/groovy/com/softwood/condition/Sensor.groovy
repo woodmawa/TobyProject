@@ -1,5 +1,7 @@
 package com.softwood.condition
 
+import com.softwood.context.GameState
+
 import java.util.function.Predicate
 
 
@@ -9,7 +11,7 @@ class Sensor {
 
     String name
     def observes //sensor will look at something
-    Closure<List> sense = {[]}  //do nothing
+    Closure<GameState> sense = {GameState.NOT_DEFINED}  //do nothing
     def lowWatermark
     def highWatermark
 

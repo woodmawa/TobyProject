@@ -38,8 +38,8 @@ class PlayerPrefab<T> {
         Sensor sensor = new Sensor(observes:energy, name:"isTired", lowWatermark: 35)
         //attributes will be resolved to the player instance delegate
         sensor.sense = { param ->
-            [attributes.get("Energy")?.name, attributes.get("Energy")?.value < sensor.lowWatermark]
-            }
+            GameState senseAttributeState = new GameState(name:"isTired", value:attributes.get("Energy")?.value < sensor.lowWatermark )
+        }
         sensor.sense.delegate = player
 
         //add sensor to players list of sensors

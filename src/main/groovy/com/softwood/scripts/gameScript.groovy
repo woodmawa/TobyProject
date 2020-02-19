@@ -19,7 +19,7 @@ scene.elements << player
 
 Sensor sensor = player.sensors[0]
 def val =  sensor.sense()
-assert val == ["Energy",false]
+assert val == new GameState(name:"isTired", value:false)
 assert player.name == "Will Woodman"
 assert player.currentGoal.asList() == ["hasSword",true]
 assert player.attributes.size() == 2
